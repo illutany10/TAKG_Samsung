@@ -1,0 +1,96 @@
+08/02/2022 15:30:03 [INFO] predict: Parameters:
+08/02/2022 15:30:03 [INFO] predict: seed    :    9527
+08/02/2022 15:30:03 [INFO] predict: word_vec_size    :    150
+08/02/2022 15:30:03 [INFO] predict: share_embeddings    :    True
+08/02/2022 15:30:03 [INFO] predict: encoder_type    :    rnn
+08/02/2022 15:30:03 [INFO] predict: decoder_type    :    rnn
+08/02/2022 15:30:03 [INFO] predict: enc_layers    :    2
+08/02/2022 15:30:03 [INFO] predict: dec_layers    :    1
+08/02/2022 15:30:03 [INFO] predict: encoder_size    :    150
+08/02/2022 15:30:03 [INFO] predict: decoder_size    :    300
+08/02/2022 15:30:03 [INFO] predict: dropout    :    0.1
+08/02/2022 15:30:03 [INFO] predict: rnn_type    :    GRU
+08/02/2022 15:30:03 [INFO] predict: bidirectional    :    True
+08/02/2022 15:30:03 [INFO] predict: bridge    :    copy
+08/02/2022 15:30:03 [INFO] predict: attn_mode    :    concat
+08/02/2022 15:30:03 [INFO] predict: copy_attention    :    True
+08/02/2022 15:30:03 [INFO] predict: coverage_attn    :    False
+08/02/2022 15:30:03 [INFO] predict: review_attn    :    False
+08/02/2022 15:30:03 [INFO] predict: lambda_coverage    :    1
+08/02/2022 15:30:03 [INFO] predict: coverage_loss    :    False
+08/02/2022 15:30:03 [INFO] predict: orthogonal_loss    :    False
+08/02/2022 15:30:03 [INFO] predict: lambda_orthogonal    :    0.03
+08/02/2022 15:30:03 [INFO] predict: lambda_target_encoder    :    0.03
+08/02/2022 15:30:03 [INFO] predict: trial    :    False
+08/02/2022 15:30:03 [INFO] predict: joint_train    :    False
+08/02/2022 15:30:03 [INFO] predict: joint_train_strategy    :    p_1_joint
+08/02/2022 15:30:03 [INFO] predict: iterate_train_ntm    :    False
+08/02/2022 15:30:03 [INFO] predict: p_seq2seq_e    :    1
+08/02/2022 15:30:03 [INFO] predict: add_two_loss    :    False
+08/02/2022 15:30:03 [INFO] predict: save_each_epoch    :    False
+08/02/2022 15:30:03 [INFO] predict: use_topic_represent    :    True
+08/02/2022 15:30:03 [INFO] predict: topic_num    :    50
+08/02/2022 15:30:03 [INFO] predict: topic_type    :    g
+08/02/2022 15:30:03 [INFO] predict: topic_dec    :    False
+08/02/2022 15:30:03 [INFO] predict: topic_attn    :    True
+08/02/2022 15:30:03 [INFO] predict: topic_copy    :    False
+08/02/2022 15:30:03 [INFO] predict: topic_attn_in    :    False
+08/02/2022 15:30:03 [INFO] predict: load_pretrain_ntm    :    False
+08/02/2022 15:30:03 [INFO] predict: only_train_ntm    :    False
+08/02/2022 15:30:03 [INFO] predict: check_pt_ntm_model_path    :    None
+08/02/2022 15:30:03 [INFO] predict: ntm_warm_up_epochs    :    0
+08/02/2022 15:30:03 [INFO] predict: target_sparsity    :    0.85
+08/02/2022 15:30:03 [INFO] predict: model    :    model\StackExchange_s150_t10.joint_train.use_topic.topic_num50.topic_attn.no_topic_dec.copy.seed9527.emb150.vs50000.dec300.20220802-133943\1.model-0h-07m
+08/02/2022 15:30:03 [INFO] predict: ntm_model    :    model\StackExchange_s150_t10.joint_train.use_topic.topic_num50.topic_attn.no_topic_dec.copy.seed9527.emb150.vs50000.dec300.20220802-133943\1.model_ntm-0h-07m
+08/02/2022 15:30:03 [INFO] predict: batch_size    :    32
+08/02/2022 15:30:03 [INFO] predict: batch_workers    :    4
+08/02/2022 15:30:03 [INFO] predict: beam_size    :    50
+08/02/2022 15:30:03 [INFO] predict: n_best    :    50
+08/02/2022 15:30:03 [INFO] predict: max_length    :    6
+08/02/2022 15:30:03 [INFO] predict: verbose    :    False
+08/02/2022 15:30:03 [INFO] predict: attn_debug    :    False
+08/02/2022 15:30:03 [INFO] predict: data    :    processed_data/StackExchange_s150_t10/
+08/02/2022 15:30:03 [INFO] predict: vocab    :    processed_data/StackExchange_s150_t10/
+08/02/2022 15:30:03 [INFO] predict: custom_data_filename_suffix    :    False
+08/02/2022 15:30:03 [INFO] predict: custom_vocab_filename_suffix    :    False
+08/02/2022 15:30:03 [INFO] predict: vocab_filename_suffix    :    
+08/02/2022 15:30:03 [INFO] predict: data_filename_suffix    :    
+08/02/2022 15:30:03 [INFO] predict: length_penalty_factor    :    0.0
+08/02/2022 15:30:03 [INFO] predict: coverage_penalty_factor    :    -0.0
+08/02/2022 15:30:03 [INFO] predict: length_penalty    :    none
+08/02/2022 15:30:03 [INFO] predict: coverage_penalty    :    none
+08/02/2022 15:30:03 [INFO] predict: gpuid    :    0
+08/02/2022 15:30:03 [INFO] predict: timemark    :    20220802-153003
+08/02/2022 15:30:03 [INFO] predict: pred_file_prefix    :    
+08/02/2022 15:30:03 [INFO] predict: pred_path    :    pred/predict__
+08/02/2022 15:30:03 [INFO] predict: exp    :    predict__
+08/02/2022 15:30:03 [INFO] predict: exp_path    :    exp/%s.%s
+08/02/2022 15:30:03 [INFO] predict: one2many    :    False
+08/02/2022 15:30:03 [INFO] predict: one2many_mode    :    0
+08/02/2022 15:30:03 [INFO] predict: delimiter_type    :    0
+08/02/2022 15:30:03 [INFO] predict: max_eos_per_output_seq    :    1
+08/02/2022 15:30:03 [INFO] predict: sampling    :    False
+08/02/2022 15:30:03 [INFO] predict: replace_unk    :    True
+08/02/2022 15:30:03 [INFO] predict: remove_src_eos    :    False
+08/02/2022 15:30:03 [INFO] predict: block_ngram_repeat    :    0
+08/02/2022 15:30:03 [INFO] predict: ignore_when_blocking    :    ['<sep>']
+08/02/2022 15:30:03 [INFO] predict: data_dir    :    None
+08/02/2022 15:30:03 [INFO] predict: vocab_size    :    50000
+08/02/2022 15:30:03 [INFO] predict: bow_vocab    :    10000
+08/02/2022 15:30:03 [INFO] predict: max_src_len    :    100
+08/02/2022 15:30:03 [INFO] predict: max_trg_len    :    10
+08/02/2022 15:30:03 [INFO] predict: max_unk_words    :    1000
+08/02/2022 15:30:03 [INFO] predict: words_min_frequency    :    0
+08/02/2022 15:30:03 [INFO] predict: dynamic_dict    :    True
+08/02/2022 15:30:03 [INFO] predict: device    :    cuda:0
+08/02/2022 15:30:03 [INFO] predict: data_tag    :    StackExchange_s150_t10
+08/02/2022 15:30:03 [INFO] data_loader: Loading vocab from disk: processed_data/StackExchange_s150_t10/
+08/02/2022 15:30:03 [INFO] data_loader: #(vocab)=87279
+08/02/2022 15:30:03 [INFO] data_loader: #(vocab used)=50000
+08/02/2022 15:30:03 [INFO] data_loader: #(bow dictionary size)=10000
+08/02/2022 15:30:03 [INFO] data_loader: Loading train and validate data from 'processed_data/StackExchange_s150_t10/'
+08/02/2022 15:30:03 [INFO] data_loader: #(test data size: #(batch)=155
+08/02/2022 15:30:05 [INFO] predict: Time for loading the data and model: 0.0
+08/02/2022 15:38:24 [INFO] evaluate: Writing to pred/predict__\predictions.txt
+08/02/2022 15:38:24 [INFO] evaluate: done!
+08/02/2022 15:38:24 [INFO] predict: Time for a complete testing: 498.8
