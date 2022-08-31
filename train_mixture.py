@@ -11,6 +11,8 @@ import logging
 import torch
 import sys
 import os
+import pyLDAvis.gensim_models
+import IPython
 from sklearn.decomposition import LatentDirichletAllocation
 
 EPS = 1e-6
@@ -98,9 +100,13 @@ def train_model(model, ntm_model, optimizer_ml, optimizer_ntm, optimizer_whole, 
                 bow_dictionary, train_bow_loader, valid_bow_loader, opt):
     logging.info('======================  Start Training  =========================')
 
-    tokenized_doc = torch.load(opt.data + 'corpus.pt')
-    corpus = [bow_dictionary.doc2bow(text) for text in tokenized_doc]
-    ldamodel = gensim.models.ldamodel.LdaModel(corpus, num_topics=10, id2word=bow_dictionary, passes=15)
+    if opt.only_train_lda:
+        tokenized_doc = torch.load(opt.data + 'corpus.pt')
+        corpus = [bow_dictionary.doc2bow(text) for text in tokenized_doc]
+        ldamodel = gensim.models.ldamodel.LdaModel(corpus, num_topics=opt.topic_num, id2word=bow_dictionary, passes=15)
+        vis = pyLDAvis.gensim_models.prepare(ldamodel, corpus, bow_dictionary)
+        pyLDAvis.save_html(vis, './vis.html')
+        return
 
     # lda_model = LatentDirichletAllocation(n_components=10, learning_method='online', random_state=777, max_iter=1)
     # lda_top = lda_model.fit_transform(X)

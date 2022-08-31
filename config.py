@@ -55,6 +55,7 @@ def my_own_opts(parser):
 
     parser.add_argument('-load_pretrain_ntm', default=False, action='store_true')
     parser.add_argument('-only_train_ntm', default=False, action='store_true')
+    parser.add_argument('-only_train_lda', default=False, action='store_true')
     parser.add_argument('-check_pt_ntm_model_path', type=str)
     parser.add_argument('-ntm_warm_up_epochs', type=int, default=0)
 
