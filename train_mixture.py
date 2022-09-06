@@ -1,19 +1,21 @@
+import logging
+import math
+import os
+import sys
+import time
+import pickle
+
 import gensim
+import pyLDAvis.gensim_models
+import pandas as pd
+import torch
 import torch.nn as nn
 from torch.nn import functional as F
+
+from evaluate import evaluate_loss
 from pykp.masked_loss import masked_cross_entropy
 from utils.statistics import LossStatistics
 from utils.time_log import time_since, convert_time2str
-from evaluate import evaluate_loss
-import time
-import math
-import logging
-import torch
-import sys
-import os
-import pyLDAvis.gensim_models
-import IPython
-from sklearn.decomposition import LatentDirichletAllocation
 
 EPS = 1e-6
 
@@ -96,15 +98,51 @@ def unfix_model(model):
         param.requires_grad = True
 
 
+def make_topictable_per_doc(ldamodel, corpus):
+    topic_table = pd.DataFrame()
+
+    # 몇 번째 문서인지를 의미하는 문서 번호와 해당 문서의 토픽 비중을 한 줄씩 꺼내온다.
+    for i, topic_list in enumerate(ldamodel[corpus]):
+        doc = topic_list[0] if ldamodel.per_word_topics else topic_list
+        doc = sorted(doc, key=lambda x: (x[1]), reverse=True)
+        # 각 문서에 대해서 비중이 높은 토픽순으로 토픽을 정렬한다.
+        # EX) 정렬 전 0번 문서 : (2번 토픽, 48.5%), (8번 토픽, 25%), (10번 토픽, 5%), (12번 토픽, 21.5%),
+        # Ex) 정렬 후 0번 문서 : (2번 토픽, 48.5%), (8번 토픽, 25%), (12번 토픽, 21.5%), (10번 토픽, 5%)
+        # 48 > 25 > 21 > 5 순으로 정렬이 된 것.
+
+        # 모든 문서에 대해서 각각 아래를 수행
+        for j, (topic_num, prop_topic) in enumerate(doc):  # 몇 번 토픽인지와 비중을 나눠서 저장한다.
+            if j == 0:  # 정렬을 한 상태이므로 가장 앞에 있는 것이 가장 비중이 높은 토픽
+                topic_table = topic_table.append(pd.Series([int(topic_num), round(prop_topic, 4), doc]), ignore_index=True)
+                # 가장 비중이 높은 토픽과, 가장 비중이 높은 토픽의 비중과, 전체 토픽의 비중을 저장한다.
+            else:
+                break
+    return (topic_table)
+
+
 def train_model(model, ntm_model, optimizer_ml, optimizer_ntm, optimizer_whole, train_data_loader, valid_data_loader,
                 bow_dictionary, train_bow_loader, valid_bow_loader, opt):
     logging.info('======================  Start Training  =========================')
 
     if opt.only_train_lda:
-        tokenized_doc = torch.load(opt.data + 'corpus.pt')
-        corpus = [bow_dictionary.doc2bow(text) for text in tokenized_doc]
-        ldamodel = gensim.models.ldamodel.LdaModel(corpus, num_topics=opt.topic_num, id2word=bow_dictionary, passes=15)
-        vis = pyLDAvis.gensim_models.prepare(ldamodel, corpus, bow_dictionary)
+        if not opt.load_pretrain_lda:
+            tokenized_doc = torch.load(opt.data + 'corpus.pt')
+            corpus = [bow_dictionary.doc2bow(text) for text in tokenized_doc]
+            pickle.dump(corpus, open('gensim_corpus_corpus.pkl', 'wb'))
+            lda_model = gensim.models.ldamodel.LdaModel(corpus, num_topics=opt.topic_num, id2word=bow_dictionary, passes=15)
+            lda_model.save('gensim_model.gensim')
+
+            topic_table = make_topictable_per_doc(lda_model, corpus)
+            topic_table = topic_table.reset_index()  # 문서 번호을 의미하는 열(column)로 사용하기 위해서 인덱스 열을 하나 더 만든다.
+            topic_table.columns = ['문서 번호', '가장 비중이 높은 토픽', '가장 높은 토픽의 비중', '각 토핑의 비중']
+            pickle.dump(topic_table, open('gensim_topic_table.pkl', 'wb'))
+        else:
+            lda_model = gensim.models.ldamodel.LdaModel.load('gensim_model.gensim')
+            corpus = pickle.load(open('gensim_corpus_corpus.pkl', 'rb'))
+            topic_table = pickle.load(open('gensim_topic_table.pkl', 'rb'))
+
+        print(topic_table[:10])
+        vis = pyLDAvis.gensim_models.prepare(lda_model, corpus, bow_dictionary)
         pyLDAvis.save_html(vis, './vis.html')
         return
 
