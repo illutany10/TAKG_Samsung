@@ -1,18 +1,20 @@
-import torch
-import logging
-import time
-import sys
 import argparse
+import logging
+import os
+import sys
+import time
+
+import gensim
+import torch
 
 import config
-from sequence_generator import SequenceGenerator
-from utils.time_log import time_since
-from evaluate import evaluate_beam_search
-from utils.data_loader import load_data_and_vocab
 import pykp.io
+from evaluate import evaluate_beam_search
 from pykp.model import Seq2SeqModel, NTM
-
-import os
+from sequence_generator import SequenceGenerator
+from train_mixture import make_topictable_per_doc
+from utils.data_loader import load_data_and_vocab
+from utils.time_log import time_since
 
 os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 
@@ -106,11 +108,22 @@ def process_opt(opt):
     return opt
 
 
-def predict(test_data_loader, model, ntm_model, opt):
+def predict(test_data_loader, model, ntm_model, bow_dictionary, opt):
     if opt.delimiter_type == 0:
         delimiter_word = pykp.io.SEP_WORD
     else:
         delimiter_word = pykp.io.EOS_WORD
+
+    if opt.lda_model:  # 임시 코드. 수정 필요.
+        lda_model = gensim.models.ldamodel.LdaModel.load('gensim_model.gensim')
+        test_corpus = torch.load(opt.data + 'test_src.pt')
+        test_corpus = [bow_dictionary.doc2bow(text) for text in test_corpus]
+        topic_table = make_topictable_per_doc(lda_model, test_corpus)
+        topic_table = topic_table.reset_index()  # 문서 번호을 의미하는 열(column)로 사용하기 위해서 인덱스 열을 하나 더 만든다.
+        topic_table.columns = ['문서 번호', '가장 비중이 높은 토픽', '가장 높은 토픽의 비중', '각 토핑의 비중']
+        print(topic_table[:10])
+        return
+
     generator = SequenceGenerator(model,
                                   ntm_model,
                                   opt.use_topic_represent,
@@ -146,7 +159,7 @@ def main(opt):
         logging.info('Time for loading the data and model: %.1f' % load_data_time)
         start_time = time.time()
 
-        predict(test_data_loader, model, ntm_model, opt)
+        predict(test_data_loader, model, ntm_model, bow_dictionary, opt)
 
         total_testing_time = time_since(start_time)
         logging.info('Time for a complete testing: %.1f' % total_testing_time)

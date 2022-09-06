@@ -422,6 +422,7 @@ def predict_opts(parser):
                         help='Path to model .pt file')
     parser.add_argument('-ntm_model', type=str,
                         help='Path to ntm model .pt file')
+    parser.add_argument('-lda_model', default=False, action='store_true', help='Predict using LDA Model')  # 나중에 경로 지정 필요
     parser.add_argument('-batch_size', type=int, default=32,
                         help='Maximum batch size')
     parser.add_argument('-batch_workers', type=int, default=4,

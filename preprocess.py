@@ -46,6 +46,10 @@ def read_src_trg_files(opt, tag="train"):
 
     tokenized_pairs = list(zip(tokenized_src, tokenized_trg))
     print("Finish reading %d lines of data from %s and %s" % (len(tokenized_src), src_file, trg_file))
+
+    torch.save(tokenized_src, open(opt.res_data_dir + '/' + tag + '_src.pt', 'wb'))
+    torch.save(tokenized_trg, open(opt.res_data_dir + '/' + tag + '_trg.pt', 'wb'))
+
     return tokenized_pairs
 
 
