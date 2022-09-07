@@ -6,6 +6,7 @@ import time
 import pickle
 
 import gensim
+from gensim.models.coherencemodel import CoherenceModel
 import pyLDAvis.gensim_models
 import pandas as pd
 import torch
@@ -129,7 +130,33 @@ def train_model(model, ntm_model, optimizer_ml, optimizer_ntm, optimizer_whole, 
             tokenized_doc = torch.load(opt.data + 'corpus.pt')
             corpus = [bow_dictionary.doc2bow(text) for text in tokenized_doc]
             pickle.dump(corpus, open('gensim_corpus_corpus.pkl', 'wb'))
-            lda_model = gensim.models.ldamodel.LdaModel(corpus, num_topics=opt.topic_num, id2word=bow_dictionary, passes=15)
+            n_topic = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+            n_iter = [1, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+            max_topic_coherence = -100
+            max_topic_coherence_cv = -100
+            max_score_topic = -1
+            max_score_topic_cv = -1
+            model_per_topic = {}
+            for n in n_topic:
+                for iter in n_iter:
+                    lda_model = gensim.models.ldamodel.LdaModel(corpus, num_topics=n, id2word=bow_dictionary, passes=15, iterations=iter)
+                    cm = CoherenceModel(model=lda_model, corpus=corpus, coherence='u_mass')
+                    cm_c_v = CoherenceModel(model=lda_model, texts=tokenized_doc, coherence='c_v')
+                    coherence = cm.get_coherence()
+                    coherence_cv = cm_c_v.get_coherence()
+                    perplexity = lda_model.log_perplexity(corpus)
+                    print(f'# of Topic : {n}, Coherence : {coherence}, Perplexity : {perplexity}')
+                    model_per_topic[str(n) + '_' + str(iter)] = (lda_model, coherence, coherence_cv, perplexity)
+                    if max_topic_coherence < coherence:
+                        max_topic_coherence = coherence
+                        max_score_topic = n
+                    if max_topic_coherence_cv < coherence_cv:
+                        max_topic_coherence_cv = coherence_cv
+                        max_score_topic_cv = n
+                    pickle.dump(model_per_topic, open('model_per_topic.pkl', 'wb'))  # for Debug
+
+            print(f'Max Score Topic (u_mass): {max_score_topic} ({max_topic_coherence}), Max Score Topic (CV): {max_score_topic_cv} ({max_topic_coherence_cv})')
+            lda_model = gensim.models.ldamodel.LdaModel(corpus, num_topics=max_score_topic, id2word=bow_dictionary, passes=15)
             lda_model.save('gensim_model.gensim')
 
             topic_table = make_topictable_per_doc(lda_model, corpus)
