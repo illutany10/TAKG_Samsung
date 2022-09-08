@@ -12,7 +12,7 @@ import pykp.io
 from evaluate import evaluate_beam_search
 from pykp.model import Seq2SeqModel, NTM
 from sequence_generator import SequenceGenerator
-from train_mixture import make_topictable_per_doc
+from train_mixture import make_topictable_per_doc, make_predict_word_top_j_k
 from utils.data_loader import load_data_and_vocab
 from utils.time_log import time_since
 
@@ -118,6 +118,7 @@ def predict(test_data_loader, model, ntm_model, bow_dictionary, opt):
         lda_model = gensim.models.ldamodel.LdaModel.load('gensim_model.gensim')
         test_corpus = torch.load(opt.data + 'test_src.pt')
         test_corpus = [bow_dictionary.doc2bow(text) for text in test_corpus]
+        tw = make_predict_word_top_j_k(opt, lda_model, test_corpus)
         topic_table = make_topictable_per_doc(lda_model, test_corpus)
         topic_table = topic_table.reset_index()  # 문서 번호을 의미하는 열(column)로 사용하기 위해서 인덱스 열을 하나 더 만든다.
         topic_table.columns = ['문서 번호', '가장 비중이 높은 토픽', '가장 높은 토픽의 비중', '각 토핑의 비중']

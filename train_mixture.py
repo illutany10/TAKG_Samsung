@@ -120,6 +120,39 @@ def make_topictable_per_doc(ldamodel, corpus):
                 break
     return (topic_table)
 
+def make_predict_word_top_j_k(opt, ldamodel, corpus):
+    word_table = []
+
+    tp = ldamodel.print_topics(num_words=10, num_topics=100)
+
+    # 몇 번째 문서인지를 의미하는 문서 번호와 해당 문서의 토픽 비중을 한 줄씩 꺼내온다.
+    for i, topic_list in enumerate(ldamodel[corpus]):
+        doc = topic_list[0] if ldamodel.per_word_topics else topic_list
+        doc = sorted(doc, key=lambda x: (x[1]), reverse=True)
+        # 각 문서에 대해서 비중이 높은 토픽순으로 토픽을 정렬한다.
+        # EX) 정렬 전 0번 문서 : (2번 토픽, 48.5%), (8번 토픽, 25%), (10번 토픽, 5%), (12번 토픽, 21.5%),
+        # Ex) 정렬 후 0번 문서 : (2번 토픽, 48.5%), (8번 토픽, 25%), (12번 토픽, 21.5%), (10번 토픽, 5%)
+        # 48 > 25 > 21 > 5 순으로 정렬이 된 것.
+
+        words_for_doc=[]
+        # 모든 문서에 대해서 각각 아래를 수행
+        for j, (topic_num, prop_topic) in enumerate(doc):  # 몇 번 토픽인지와 비중을 나눠서 저장한다.
+            if j < 3:  # 정렬을 한 상태이므로 가장 앞에 있는 것이 가장 비중이 높은 토픽 3개
+                words_in_topic=tp[topic_num][1].split('+')
+                for word in words_in_topic[:7]: #k=7, 7개까지 word
+                    words_for_doc.append(word.split('*')[-1][1:-2])
+            else:
+                break
+        word_table.append(';'.join(words_for_doc))
+
+    pred_fn = os.path.join(opt.pred_path, 'predictions.txt')
+    pred_output_file = open(pred_fn, "w", encoding='utf8')
+    for pred_word in word_table:
+        pred_output_file.write(pred_word + '\n')
+    pred_output_file.close()
+
+    return word_table
+
 
 def train_model(model, ntm_model, optimizer_ml, optimizer_ntm, optimizer_whole, train_data_loader, valid_data_loader,
                 bow_dictionary, train_bow_loader, valid_bow_loader, opt):
