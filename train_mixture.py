@@ -162,6 +162,9 @@ def train_model(model, ntm_model, optimizer_ml, optimizer_ntm, optimizer_whole, 
         if not opt.load_pretrain_lda:
             tokenized_doc = torch.load(opt.data + 'corpus.pt')
             corpus = [bow_dictionary.doc2bow(text) for text in tokenized_doc]
+            # tokenized_doc_test = torch.load(opt.data + 'corpus_test.pt')
+            # test_corpus = [bow_dictionary.doc2bow(text) for text in tokenized_doc_test]
+            # corpus = corpus + test_corpus
             pickle.dump(corpus, open('gensim_corpus_corpus.pkl', 'wb'))
             n_topic = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
             n_iter = [1, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
