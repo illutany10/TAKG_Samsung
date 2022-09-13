@@ -1,0 +1,84 @@
+Total #samples: 3689
+Max. unique targets per src: 77237
+Total #unique predictions: 70841
+===================================all====================================
+#predictions after filtering: 70841	 #predictions after filtering per src:19.203
+#unique targets: 9002	 #unique targets per src:2.440
+Begin===============classification metrics all@1===============Begin
+#target: 3689, #predictions: 9002, #corrects: 6
+Micro:	P@1=0.0016265	R@1=0.00066652	F1@1=0.00094555
+Macro:	P@1=0.0016265	R@1=0.00085841	F1@1=0.0011237
+Begin===============classification metrics all@3===============Begin
+#target: 11067, #predictions: 9002, #corrects: 14
+Micro:	P@3=0.001265	R@3=0.0015552	F1@3=0.0013952
+Macro:	P@3=0.001265	R@3=0.0020783	F1@3=0.0015727
+Begin===============classification metrics all@5===============Begin
+#target: 18445, #predictions: 9002, #corrects: 24
+Micro:	P@5=0.0013012	R@5=0.0026661	F1@5=0.0017488
+Macro:	P@5=0.0013012	R@5=0.0032077	F1@5=0.0018514
+Begin===============classification metrics all@10===============Begin
+#target: 36873, #predictions: 9002, #corrects: 55
+Micro:	P@10=0.0014916	R@10=0.0061098	F1@10=0.0023978
+Macro:	P@10=0.0014909	R@10=0.0074636	F1@10=0.0024854
+Begin==================Ranking metrics all@1==================Begin
+	MAP@1=0.00085841	NDCG@1=0.0016265	AlphaNDCG@1=0.0071835
+Begin==================Ranking metrics all@3==================Begin
+	MAP@3=0.0013253	NDCG@3=0.0028172	AlphaNDCG@3=0.012395
+Begin==================Ranking metrics all@5==================Begin
+	MAP@5=0.0015681	NDCG@5=0.0039134	AlphaNDCG@5=0.016435
+Begin==================Ranking metrics all@10==================Begin
+	MAP@10=0.002121	NDCG@10=0.0065102	AlphaNDCG@10=0.02467
+===================================present====================================
+#predictions after filtering: 1508	 #predictions after filtering per src:0.409
+#unique targets: 4094	 #unique targets per src:1.110
+Begin===============classification metrics present@1===============Begin
+#target: 854, #predictions: 4094, #corrects: 31
+Micro:	P@1=0.0363	R@1=0.0075721	F1@1=0.01253
+Macro:	P@1=0.011832	R@1=0.0075064	F1@1=0.0091854
+Begin===============classification metrics present@3===============Begin
+#target: 1097, #predictions: 4094, #corrects: 43
+Micro:	P@3=0.039198	R@3=0.010503	F1@3=0.016567
+Macro:	P@3=0.011896	R@3=0.010178	F1@3=0.01097
+Begin===============classification metrics present@5===============Begin
+#target: 1103, #predictions: 4094, #corrects: 43
+Micro:	P@5=0.038985	R@5=0.010503	F1@5=0.016548
+Macro:	P@5=0.011864	R@5=0.010178	F1@5=0.010957
+Begin===============classification metrics present@10===============Begin
+#target: 1103, #predictions: 4094, #corrects: 43
+Micro:	P@10=0.038985	R@10=0.010503	F1@10=0.016548
+Macro:	P@10=0.011864	R@10=0.010178	F1@10=0.010957
+Begin==================Ranking metrics present@1==================Begin
+	MAP@1=0.0075064	NDCG@1=0.011832	AlphaNDCG@1=0.022901
+Begin==================Ranking metrics present@3==================Begin
+	MAP@3=0.0089695	NDCG@3=0.01419	AlphaNDCG@3=0.026328
+Begin==================Ranking metrics present@5==================Begin
+	MAP@5=0.0089695	NDCG@5=0.01419	AlphaNDCG@5=0.026328
+Begin==================Ranking metrics present@10==================Begin
+	MAP@10=0.0089695	NDCG@10=0.01419	AlphaNDCG@10=0.026328
+===================================absent====================================
+#predictions after filtering: 69333	 #predictions after filtering per src:18.795
+#unique targets: 4908	 #unique targets per src:1.330
+Begin===============classification metrics absent@1===============Begin
+#target: 2899, #predictions: 4908, #corrects: 3
+Micro:	P@1=0.0010348	R@1=0.00061125	F1@1=0.00076854
+Macro:	P@1=0.0010348	R@1=0.00086237	F1@1=0.00094076
+Begin===============classification metrics absent@3===============Begin
+#target: 8697, #predictions: 4908, #corrects: 7
+Micro:	P@3=0.00080488	R@3=0.0014262	F1@3=0.001029
+Macro:	P@3=0.00080488	R@3=0.0018972	F1@3=0.0011303
+Begin===============classification metrics absent@5===============Begin
+#target: 14495, #predictions: 4908, #corrects: 17
+Micro:	P@5=0.0011728	R@5=0.0034637	F1@5=0.0017523
+Macro:	P@5=0.0011728	R@5=0.0047143	F1@5=0.0018783
+Begin===============classification metrics absent@10===============Begin
+#target: 28972, #predictions: 4908, #corrects: 34
+Micro:	P@10=0.0011735	R@10=0.0069275	F1@10=0.0020071
+Macro:	P@10=0.0011728	R@10=0.0089974	F1@10=0.0020751
+Begin==================Ranking metrics absent@1==================Begin
+	MAP@1=0.00086237	NDCG@1=0.0010348	AlphaNDCG@1=0.0056916
+Begin==================Ranking metrics absent@3==================Begin
+	MAP@3=0.0012935	NDCG@3=0.0018151	AlphaNDCG@3=0.0098757
+Begin==================Ranking metrics absent@5==================Begin
+	MAP@5=0.0019461	NDCG@5=0.0032553	AlphaNDCG@5=0.012993
+Begin==================Ranking metrics absent@10==================Begin
+	MAP@10=0.0025182	NDCG@10=0.0051215	AlphaNDCG@10=0.019261

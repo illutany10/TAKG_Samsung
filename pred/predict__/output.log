@@ -1,0 +1,156 @@
+09/13/2022 19:35:13 [INFO] predict: Parameters:
+09/13/2022 19:35:13 [INFO] predict: seed    :    9527
+09/13/2022 19:35:13 [INFO] predict: word_vec_size    :    150
+09/13/2022 19:35:13 [INFO] predict: share_embeddings    :    True
+09/13/2022 19:35:13 [INFO] predict: encoder_type    :    rnn
+09/13/2022 19:35:13 [INFO] predict: decoder_type    :    rnn
+09/13/2022 19:35:13 [INFO] predict: enc_layers    :    2
+09/13/2022 19:35:13 [INFO] predict: dec_layers    :    1
+09/13/2022 19:35:13 [INFO] predict: encoder_size    :    150
+09/13/2022 19:35:13 [INFO] predict: decoder_size    :    300
+09/13/2022 19:35:13 [INFO] predict: dropout    :    0.1
+09/13/2022 19:35:13 [INFO] predict: rnn_type    :    GRU
+09/13/2022 19:35:13 [INFO] predict: bidirectional    :    True
+09/13/2022 19:35:13 [INFO] predict: bridge    :    copy
+09/13/2022 19:35:13 [INFO] predict: attn_mode    :    concat
+09/13/2022 19:35:13 [INFO] predict: copy_attention    :    False
+09/13/2022 19:35:13 [INFO] predict: coverage_attn    :    False
+09/13/2022 19:35:13 [INFO] predict: review_attn    :    False
+09/13/2022 19:35:13 [INFO] predict: lambda_coverage    :    1
+09/13/2022 19:35:13 [INFO] predict: coverage_loss    :    False
+09/13/2022 19:35:13 [INFO] predict: orthogonal_loss    :    False
+09/13/2022 19:35:13 [INFO] predict: lambda_orthogonal    :    0.03
+09/13/2022 19:35:13 [INFO] predict: lambda_target_encoder    :    0.03
+09/13/2022 19:35:13 [INFO] predict: trial    :    False
+09/13/2022 19:35:13 [INFO] predict: joint_train    :    False
+09/13/2022 19:35:13 [INFO] predict: joint_train_strategy    :    p_1_joint
+09/13/2022 19:35:13 [INFO] predict: iterate_train_ntm    :    False
+09/13/2022 19:35:13 [INFO] predict: p_seq2seq_e    :    1
+09/13/2022 19:35:13 [INFO] predict: add_two_loss    :    False
+09/13/2022 19:35:13 [INFO] predict: save_each_epoch    :    False
+09/13/2022 19:35:13 [INFO] predict: use_topic_represent    :    False
+09/13/2022 19:35:13 [INFO] predict: topic_num    :    50
+09/13/2022 19:35:13 [INFO] predict: topic_type    :    g
+09/13/2022 19:35:13 [INFO] predict: topic_dec    :    False
+09/13/2022 19:35:13 [INFO] predict: topic_attn    :    False
+09/13/2022 19:35:13 [INFO] predict: topic_copy    :    False
+09/13/2022 19:35:13 [INFO] predict: topic_attn_in    :    False
+09/13/2022 19:35:13 [INFO] predict: load_pretrain_ntm    :    False
+09/13/2022 19:35:13 [INFO] predict: only_train_ntm    :    False
+09/13/2022 19:35:13 [INFO] predict: only_train_lda    :    False
+09/13/2022 19:35:13 [INFO] predict: check_pt_ntm_model_path    :    None
+09/13/2022 19:35:13 [INFO] predict: ntm_warm_up_epochs    :    0
+09/13/2022 19:35:13 [INFO] predict: target_sparsity    :    0.85
+09/13/2022 19:35:13 [INFO] predict: evaluate_coherence    :    False
+09/13/2022 19:35:13 [INFO] predict: model    :    model\StackExchange_s150_t10.seed9527.emb150.vs50000.dec300.20220905-131525\e5.val_loss=2.609.model-0h-15m
+09/13/2022 19:35:13 [INFO] predict: ntm_model    :    model\StackExchange_s150_t10.topic_num50.ntm_warm_up_100.20220906-132851\e20.val_loss=174.123.sparsity=0.005.ntm_model
+09/13/2022 19:35:13 [INFO] predict: lda_model    :    True
+09/13/2022 19:35:13 [INFO] predict: batch_size    :    32
+09/13/2022 19:35:13 [INFO] predict: batch_workers    :    4
+09/13/2022 19:35:13 [INFO] predict: beam_size    :    50
+09/13/2022 19:35:13 [INFO] predict: n_best    :    50
+09/13/2022 19:35:13 [INFO] predict: max_length    :    6
+09/13/2022 19:35:13 [INFO] predict: verbose    :    False
+09/13/2022 19:35:13 [INFO] predict: attn_debug    :    False
+09/13/2022 19:35:13 [INFO] predict: data    :    processed_data/StackExchange_s150_t10/
+09/13/2022 19:35:13 [INFO] predict: vocab    :    processed_data/StackExchange_s150_t10/
+09/13/2022 19:35:13 [INFO] predict: custom_data_filename_suffix    :    False
+09/13/2022 19:35:13 [INFO] predict: custom_vocab_filename_suffix    :    False
+09/13/2022 19:35:13 [INFO] predict: vocab_filename_suffix    :    
+09/13/2022 19:35:13 [INFO] predict: data_filename_suffix    :    
+09/13/2022 19:35:13 [INFO] predict: length_penalty_factor    :    0.0
+09/13/2022 19:35:13 [INFO] predict: coverage_penalty_factor    :    -0.0
+09/13/2022 19:35:13 [INFO] predict: length_penalty    :    none
+09/13/2022 19:35:13 [INFO] predict: coverage_penalty    :    none
+09/13/2022 19:35:13 [INFO] predict: gpuid    :    0
+09/13/2022 19:35:13 [INFO] predict: timemark    :    20220913-193513
+09/13/2022 19:35:13 [INFO] predict: pred_file_prefix    :    
+09/13/2022 19:35:13 [INFO] predict: pred_path    :    pred/predict__
+09/13/2022 19:35:13 [INFO] predict: exp    :    predict__
+09/13/2022 19:35:13 [INFO] predict: exp_path    :    exp/%s.%s
+09/13/2022 19:35:13 [INFO] predict: one2many    :    False
+09/13/2022 19:35:13 [INFO] predict: one2many_mode    :    0
+09/13/2022 19:35:13 [INFO] predict: delimiter_type    :    0
+09/13/2022 19:35:13 [INFO] predict: max_eos_per_output_seq    :    1
+09/13/2022 19:35:13 [INFO] predict: sampling    :    False
+09/13/2022 19:35:13 [INFO] predict: replace_unk    :    True
+09/13/2022 19:35:13 [INFO] predict: remove_src_eos    :    False
+09/13/2022 19:35:13 [INFO] predict: block_ngram_repeat    :    0
+09/13/2022 19:35:13 [INFO] predict: ignore_when_blocking    :    ['<sep>']
+09/13/2022 19:35:13 [INFO] predict: data_dir    :    None
+09/13/2022 19:35:13 [INFO] predict: vocab_size    :    50000
+09/13/2022 19:35:13 [INFO] predict: bow_vocab    :    10000
+09/13/2022 19:35:13 [INFO] predict: max_src_len    :    100
+09/13/2022 19:35:13 [INFO] predict: max_trg_len    :    10
+09/13/2022 19:35:13 [INFO] predict: max_unk_words    :    1000
+09/13/2022 19:35:13 [INFO] predict: words_min_frequency    :    0
+09/13/2022 19:35:13 [INFO] predict: dynamic_dict    :    True
+09/13/2022 19:35:13 [INFO] predict: only_with_keywords    :    False
+09/13/2022 19:35:13 [INFO] predict: device    :    cuda:0
+09/13/2022 19:35:13 [INFO] predict: data_tag    :    StackExchange_s150_t10
+09/13/2022 19:35:13 [INFO] data_loader: Loading vocab from disk: processed_data/StackExchange_s150_t10/
+09/13/2022 19:35:13 [INFO] data_loader: #(vocab)=82138
+09/13/2022 19:35:13 [INFO] data_loader: #(vocab used)=50000
+09/13/2022 19:35:13 [INFO] data_loader: #(bow dictionary size)=10000
+09/13/2022 19:35:13 [INFO] data_loader: Loading train and validate data from 'processed_data/StackExchange_s150_t10/'
+09/13/2022 19:35:14 [INFO] data_loader: #(test data size: #(batch)=116
+09/13/2022 19:35:16 [INFO] predict: Time for loading the data and model: 0.0
+09/13/2022 19:35:16 [INFO] utils: loading LdaModel object from gensim_model.gensim
+09/13/2022 19:35:16 [INFO] utils: loading expElogbeta from gensim_model.gensim.expElogbeta.npy with mmap=None
+09/13/2022 19:35:16 [INFO] utils: setting ignored attribute dispatcher to None
+09/13/2022 19:35:16 [INFO] utils: setting ignored attribute state to None
+09/13/2022 19:35:16 [INFO] utils: setting ignored attribute id2word to None
+09/13/2022 19:35:16 [INFO] utils: LdaModel lifecycle event {'fname': 'gensim_model.gensim', 'datetime': '2022-09-13T19:35:16.551737', 'gensim': '4.2.0', 'python': '3.9.13 (tags/v3.9.13:6de2ca5, May 17 2022, 16:36:42) [MSC v.1929 64 bit (AMD64)]', 'platform': 'Windows-10-10.0.19044-SP0', 'event': 'loaded'}
+09/13/2022 19:35:16 [INFO] utils: loading LdaState object from gensim_model.gensim.state
+09/13/2022 19:35:16 [INFO] utils: LdaState lifecycle event {'fname': 'gensim_model.gensim.state', 'datetime': '2022-09-13T19:35:16.564739', 'gensim': '4.2.0', 'python': '3.9.13 (tags/v3.9.13:6de2ca5, May 17 2022, 16:36:42) [MSC v.1929 64 bit (AMD64)]', 'platform': 'Windows-10-10.0.19044-SP0', 'event': 'loaded'}
+09/13/2022 19:35:16 [INFO] ldamodel: topic #0 (0.020): 0.063*"history" + 0.034*"examples" + 0.032*"europe" + 0.031*"modern" + 0.026*"meditation" + 0.022*"graph" + 0.022*"middle" + 0.019*"events" + 0.018*"theorem" + 0.016*"quote"
+09/13/2022 19:35:16 [INFO] ldamodel: topic #1 (0.020): 0.053*"rules" + 0.030*"white" + 0.028*"american" + 0.025*"color" + 0.025*"rule" + 0.021*"party" + 0.020*"hands" + 0.018*"ball" + 0.018*"football" + 0.016*"point"
+09/13/2022 19:35:16 [INFO] ldamodel: topic #2 (0.020): 0.064*"play" + 0.056*"game" + 0.037*"online" + 0.033*"games" + 0.032*"learn" + 0.032*"good" + 0.032*"playing" + 0.031*"chess" + 0.025*"music" + 0.018*"resources"
+09/13/2022 19:35:16 [INFO] ldamodel: topic #3 (0.020): 0.027*"season" + 0.027*"electric" + 0.024*"equation" + 0.022*"types" + 0.020*"portfolio" + 0.020*"maps" + 0.019*"sequence" + 0.019*"equivalent" + 0.017*"dna" + 0.016*"vector"
+09/13/2022 19:35:16 [INFO] ldamodel: topic #4 (0.020): 0.070*"sound" + 0.057*"hand" + 0.051*"design" + 0.035*"hold" + 0.031*"poker" + 0.030*"strategy" + 0.029*"table" + 0.026*"performance" + 0.026*"trading" + 0.025*"cards"
+09/13/2022 19:35:16 [INFO] ldamodel: topic #5 (0.020): 0.126*"water" + 0.078*"model" + 0.032*"models" + 0.024*"puzzle" + 0.019*"regression" + 0.018*"fuel" + 0.017*"constant" + 0.017*"cell" + 0.015*"cells" + 0.015*"linear"
+09/13/2022 19:35:16 [INFO] ldamodel: topic #6 (0.020): 0.028*"house" + 0.025*"home" + 0.024*"material" + 0.023*"plastic" + 0.019*"chemistry" + 0.018*"materials" + 0.018*"waste" + 0.017*"room" + 0.016*"organic" + 0.015*"gas"
+09/13/2022 19:35:16 [INFO] ldamodel: topic #7 (0.020): 0.038*"line" + 0.022*"tools" + 0.022*"lines" + 0.020*"pro" + 0.019*"track" + 0.018*"contact" + 0.017*"loss" + 0.016*"library" + 0.016*"creating" + 0.015*"audio"
+09/13/2022 19:35:16 [INFO] ldamodel: topic #8 (0.020): 0.038*"area" + 0.031*"public" + 0.030*"address" + 0.024*"send" + 0.020*"location" + 0.019*"city" + 0.019*"places" + 0.018*"wallet" + 0.016*"levels" + 0.016*"private"
+09/13/2022 19:35:16 [INFO] ldamodel: topic #9 (0.020): 0.054*"market" + 0.049*"rate" + 0.046*"human" + 0.029*"keyboard" + 0.028*"range" + 0.021*"strength" + 0.019*"workout" + 0.019*"cut" + 0.017*"currency" + 0.017*"exchange"
+09/13/2022 19:35:16 [INFO] ldamodel: topic #10 (0.020): 0.040*"research" + 0.037*"change" + 0.035*"effect" + 0.029*"risk" + 0.026*"effects" + 0.024*"resume" + 0.022*"study" + 0.018*"economics" + 0.017*"economy" + 0.016*"break"
+09/13/2022 19:35:16 [INFO] ldamodel: topic #11 (0.020): 0.049*"turn" + 0.042*"motor" + 0.028*"drive" + 0.024*"external" + 0.023*"names" + 0.022*"transfer" + 0.019*"feeding" + 0.019*"infant" + 0.018*"turned" + 0.018*"sign"
+09/13/2022 19:35:16 [INFO] ldamodel: topic #12 (0.020): 0.066*"learning" + 0.052*"machine" + 0.051*"network" + 0.046*"neural" + 0.039*"networks" + 0.039*"ai" + 0.032*"deep" + 0.029*"artificial" + 0.025*"solar" + 0.019*"impact"
+09/13/2022 19:35:16 [INFO] ldamodel: topic #13 (0.020): 0.023*"cases" + 0.020*"conditions" + 0.020*"half" + 0.019*"complex" + 0.019*"property" + 0.018*"pattern" + 0.018*"section" + 0.016*"response" + 0.016*"pitch" + 0.015*"fully"
+09/13/2022 19:35:16 [INFO] ldamodel: topic #14 (0.020): 0.081*"space" + 0.055*"earth" + 0.033*"launch" + 0.029*"surface" + 0.029*"mars" + 0.022*"ce" + 0.021*"base" + 0.020*"texture" + 0.019*"land" + 0.019*"orbit"
+09/13/2022 19:35:16 [INFO] ldamodel: topic #15 (0.020): 0.070*"theory" + 0.056*"problem" + 0.026*"group" + 0.024*"question" + 0.022*"problems" + 0.022*"answer" + 0.022*"solution" + 0.018*"proof" + 0.015*"mathematics" + 0.015*"solve"
+09/13/2022 19:35:16 [INFO] ldamodel: topic #16 (0.020): 0.062*"number" + 0.030*"function" + 0.029*"method" + 0.023*"size" + 0.023*"test" + 0.023*"set" + 0.020*"random" + 0.020*"standard" + 0.019*"calculate" + 0.018*"numbers"
+09/13/2022 19:35:16 [INFO] ldamodel: topic #17 (0.020): 0.061*"states" + 0.047*"united" + 0.043*"state" + 0.036*"law" + 0.024*"legal" + 0.021*"people" + 0.020*"technology" + 0.018*"special" + 0.016*"voice" + 0.014*"laws"
+09/13/2022 19:35:16 [INFO] ldamodel: topic #18 (0.020): 0.043*"aircraft" + 0.039*"sleep" + 0.033*"night" + 0.031*"hours" + 0.025*"week" + 0.022*"minutes" + 0.021*"child" + 0.017*"ice" + 0.017*"weather" + 0.015*"regulations"
+09/13/2022 19:35:16 [INFO] ldamodel: topic #19 (0.020): 0.040*"algorithm" + 0.039*"running" + 0.027*"list" + 0.025*"algorithms" + 0.022*"search" + 0.020*"run" + 0.018*"complete" + 0.016*"google" + 0.014*"block" + 0.012*"gtd"
+09/13/2022 19:35:16 [INFO] ldamodel: topic #20 (0.020): 0.040*"limit" + 0.038*"mining" + 0.026*"extra" + 0.025*"hiking" + 0.025*"oil" + 0.024*"fat" + 0.024*"cooking" + 0.023*"soil" + 0.018*"mix" + 0.017*"dry"
+09/13/2022 19:35:16 [INFO] ldamodel: topic #21 (0.020): 0.085*"world" + 0.052*"war" + 0.033*"lens" + 0.031*"government" + 0.030*"canon" + 0.021*"update" + 0.020*"focus" + 0.020*"political" + 0.018*"century" + 0.017*"russia"
+09/13/2022 19:35:16 [INFO] ldamodel: topic #22 (0.020): 0.038*"weight" + 0.036*"options" + 0.032*"person" + 0.031*"price" + 0.024*"exercise" + 0.021*"option" + 0.018*"muscle" + 0.016*"lose" + 0.014*"gain" + 0.014*"benefits"
+09/13/2022 19:35:16 [INFO] ldamodel: topic #23 (0.020): 0.079*"difference" + 0.056*"source" + 0.039*"term" + 0.033*"open" + 0.023*"terminology" + 0.023*"grow" + 0.022*"action" + 0.019*"terms" + 0.017*"literature" + 0.016*"nature"
+09/13/2022 19:35:16 [INFO] ldamodel: topic #24 (0.020): 0.028*"phone" + 0.027*"android" + 0.027*"app" + 0.022*"application" + 0.021*"file" + 0.020*"security" + 0.018*"windows" + 0.018*"web" + 0.018*"code" + 0.017*"screen"
+09/13/2022 19:35:16 [INFO] ldamodel: topic #25 (0.020): 0.076*"field" + 0.031*"background" + 0.023*"ideal" + 0.022*"goal" + 0.022*"ios" + 0.021*"button" + 0.020*"enter" + 0.019*"electronic" + 0.018*"generated" + 0.017*"fields"
+09/13/2022 19:35:16 [INFO] ldamodel: topic #26 (0.020): 0.037*"cat" + 0.036*"cats" + 0.032*"red" + 0.031*"behavior" + 0.024*"event" + 0.023*"gear" + 0.022*"filter" + 0.017*"testing" + 0.016*"box" + 0.015*"social"
+09/13/2022 19:35:16 [INFO] ldamodel: topic #27 (0.020): 0.052*"book" + 0.033*"writing" + 0.033*"read" + 0.032*"books" + 0.031*"reading" + 0.030*"reference" + 0.024*"english" + 0.023*"word" + 0.022*"character" + 0.018*"words"
+09/13/2022 19:35:16 [INFO] ldamodel: topic #28 (0.020): 0.050*"country" + 0.048*"travel" + 0.033*"robot" + 0.033*"international" + 0.027*"countries" + 0.024*"maximum" + 0.024*"battery" + 0.016*"wall" + 0.015*"charge" + 0.015*"usa"
+09/13/2022 19:35:16 [INFO] ldamodel: topic #29 (0.020): 0.025*"mass" + 0.022*"cold" + 0.022*"process" + 0.021*"question" + 0.018*"service" + 0.016*"leaves" + 0.015*"fiction" + 0.014*"green" + 0.014*"information" + 0.013*"pay"
+09/13/2022 19:35:16 [INFO] ldamodel: topic #30 (0.020): 0.034*"close" + 0.031*"quantum" + 0.030*"memory" + 0.027*"systems" + 0.023*"gps" + 0.023*"final" + 0.023*"elements" + 0.021*"map" + 0.021*"alternative" + 0.018*"mechanics"
+09/13/2022 19:35:16 [INFO] ldamodel: topic #31 (0.020): 0.084*"guitar" + 0.053*"level" + 0.039*"car" + 0.037*"structure" + 0.036*"htc" + 0.027*"string" + 0.025*"factor" + 0.024*"universe" + 0.021*"strings" + 0.020*"flash"
+09/13/2022 19:35:16 [INFO] ldamodel: topic #32 (0.020): 0.078*"high" + 0.049*"temperature" + 0.041*"low" + 0.037*"air" + 0.031*"heat" + 0.028*"pressure" + 0.018*"hot" + 0.016*"volume" + 0.015*"blood" + 0.014*"perfect"
+09/13/2022 19:35:16 [INFO] ldamodel: topic #33 (0.020): 0.087*"order" + 0.045*"flight" + 0.042*"logic" + 0.039*"probability" + 0.037*"team" + 0.027*"stock" + 0.025*"volatility" + 0.024*"children" + 0.021*"return" + 0.019*"expected"
+09/13/2022 19:35:16 [INFO] ldamodel: topic #34 (0.020): 0.042*"company" + 0.041*"work" + 0.031*"job" + 0.023*"development" + 0.023*"business" + 0.019*"product" + 0.018*"website" + 0.017*"project" + 0.014*"school" + 0.014*"startup"
+09/13/2022 19:35:16 [INFO] ldamodel: topic #35 (0.020): 0.069*"software" + 0.027*"good" + 0.025*"fish" + 0.025*"recording" + 0.023*"sounds" + 0.022*"program" + 0.021*"sound" + 0.020*"photos" + 0.020*"photo" + 0.018*"correlation"
+09/13/2022 19:35:16 [INFO] ldamodel: topic #36 (0.020): 0.076*"energy" + 0.050*"light" + 0.027*"object" + 0.022*"force" + 0.022*"increase" + 0.022*"3d" + 0.020*"production" + 0.019*"gravity" + 0.017*"economic" + 0.017*"opengl"
+09/13/2022 19:35:16 [INFO] ldamodel: topic #37 (0.020): 0.131*"data" + 0.052*"image" + 0.039*"analysis" + 0.029*"series" + 0.026*"statistics" + 0.025*"differences" + 0.025*"points" + 0.022*"values" + 0.017*"images" + 0.017*"copyright"
+09/13/2022 19:35:16 [INFO] ldamodel: topic #38 (0.020): 0.165*"time" + 0.031*"day" + 0.026*"iphone" + 0.024*"long" + 0.023*"work" + 0.017*"days" + 0.016*"training" + 0.016*"good" + 0.011*"tasks" + 0.011*"management"
+09/13/2022 19:35:16 [INFO] ldamodel: topic #39 (0.020): 0.078*"life" + 0.047*"black" + 0.035*"film" + 0.032*"effective" + 0.030*"diet" + 0.026*"evidence" + 0.023*"movies" + 0.023*"daily" + 0.022*"returns" + 0.020*"scene"
+09/13/2022 19:35:16 [INFO] ldamodel: topic #40 (0.020): 0.049*"short" + 0.034*"story" + 0.034*"tree" + 0.032*"plant" + 0.029*"trees" + 0.028*"plants" + 0.022*"dead" + 0.020*"negative" + 0.020*"stories" + 0.019*"death"
+09/13/2022 19:35:16 [INFO] ldamodel: topic #41 (0.020): 0.062*"control" + 0.038*"position" + 0.030*"programming" + 0.029*"opening" + 0.028*"minimum" + 0.022*"matrix" + 0.021*"tournament" + 0.021*"board" + 0.018*"arduino" + 0.018*"moves"
+09/13/2022 19:35:16 [INFO] ldamodel: topic #42 (0.020): 0.027*"buy" + 0.025*"practice" + 0.024*"good" + 0.018*"small" + 0.016*"cost" + 0.016*"buddha" + 0.014*"exercises" + 0.013*"hard" + 0.013*"choice" + 0.012*"suitable"
+09/13/2022 19:35:16 [INFO] ldamodel: topic #43 (0.020): 0.052*"money" + 0.051*"video" + 0.039*"mac" + 0.030*"engine" + 0.027*"india" + 0.024*"noise" + 0.022*"articles" + 0.020*"pair" + 0.019*"policy" + 0.019*"engines"
+09/13/2022 19:35:16 [INFO] ldamodel: topic #44 (0.020): 0.040*"bitcoin" + 0.039*"philosophy" + 0.038*"power" + 0.037*"client" + 0.031*"engineering" + 0.019*"science" + 0.018*"concept" + 0.017*"core" + 0.014*"mechanical" + 0.014*"question"
+09/13/2022 19:35:16 [INFO] ldamodel: topic #45 (0.020): 0.040*"food" + 0.026*"year" + 0.024*"health" + 0.023*"years" + 0.022*"age" + 0.020*"bad" + 0.019*"dog" + 0.018*"dogs" + 0.017*"safe" + 0.016*"safety"
+09/13/2022 19:35:16 [INFO] ldamodel: topic #46 (0.020): 0.050*"explanation" + 0.035*"plot" + 0.028*"meaning" + 0.026*"buddhism" + 0.026*"form" + 0.024*"end" + 0.016*"coffee" + 0.016*"buddhist" + 0.016*"shown" + 0.012*"metal"
+09/13/2022 19:35:16 [INFO] ldamodel: topic #47 (0.020): 0.095*"language" + 0.072*"languages" + 0.045*"free" + 0.041*"speed" + 0.034*"regular" + 0.033*"natural" + 0.023*"context" + 0.023*"piano" + 0.021*"written" + 0.020*"dark"
+09/13/2022 19:35:16 [INFO] ldamodel: topic #48 (0.020): 0.059*"movie" + 0.040*"star" + 0.039*"remember" + 0.039*"technique" + 0.021*"notes" + 0.021*"trek" + 0.019*"atmosphere" + 0.019*"identification" + 0.016*"techniques" + 0.015*"greek"
+09/13/2022 19:35:16 [INFO] ldamodel: topic #49 (0.020): 0.041*"key" + 0.041*"camera" + 0.027*"title" + 0.027*"body" + 0.025*"talk" + 0.024*"server" + 0.023*"connection" + 0.019*"protein" + 0.018*"digital" + 0.016*"internet"
+09/13/2022 19:35:19 [INFO] predict: Time for a complete testing: 3.4
