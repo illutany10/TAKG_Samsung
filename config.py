@@ -198,6 +198,7 @@ def vocab_opts(parser):
 
     parser.add_argument('-dynamic_dict', default=True,
                         action='store_true', help="Create dynamic dictionaries (for copy)")
+    parser.add_argument('-only_with_keywords', default=False, action='store_true')
 
 
 def train_opts(parser):

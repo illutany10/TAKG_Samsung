@@ -13,39 +13,53 @@ def read_src_trg_files(opt, tag="train"):
     '''
     Read data according to the tag (train/valid/test), return a list of (src, trg) pairs
     '''
-    if tag == "train":
-        src_file = opt.train_src
-        trg_file = opt.train_trg
+    if tag == "all":
+        src_files = [opt.train_src, opt.valid_src, opt.test_src]
+        trg_files = [opt.train_trg, opt.valid_trg, opt.test_trg]
+    elif tag == "train":
+        src_files = [opt.train_src]
+        trg_files = [opt.train_trg]
     elif tag == "valid":
-        src_file = opt.valid_src
-        trg_file = opt.valid_trg
+        src_files = [opt.valid_src]
+        trg_files = [opt.valid_trg]
     else:
-        src_file = opt.test_src
-        trg_file = opt.test_trg
+        src_files = [opt.test_src]
+        trg_files = [opt.test_trg]
 
     tokenized_src = []
     tokenized_trg = []
 
-    for src_line, trg_line in zip(open(src_file, 'r', encoding='UTF8'), open(trg_file, 'r', encoding='UTF8')):
-        # process src and trg line
-        src_word_list = src_line.strip().split(' ')
-        trg_list = trg_line.strip().split(';')  # a list of target sequences
-        trg_word_list = [trg.strip().split(' ') for trg in trg_list]
+    for src_file, trg_file in zip(src_files, trg_files):
+        for src_line, trg_line in zip(open(src_file, 'r', encoding='UTF8'), open(trg_file, 'r', encoding='UTF8')):
+            # process src and trg line
+            src_word_list = src_line.strip().split(' ')
+            trg_list = trg_line.strip().split(';')  # a list of target sequences
+            trg_word_list = [trg.strip().split(' ') for trg in trg_list]
 
-        # Truncate the sequence if it is too long
-        src_word_list = src_word_list[:opt.max_src_len]
-        if tag != "test":
-            trg_word_list = [trg_list[:opt.max_trg_len] for trg_list in trg_word_list]
+            # Truncate the sequence if it is too long
+            src_word_list = src_word_list[:opt.max_src_len]
+            if tag != "test" or opt.only_with_keywords:
+                trg_word_list = [trg_list[:opt.max_trg_len] for trg_list in trg_word_list]
 
-        # Append the lines to the data
-        tokenized_src.append(src_word_list)
-        tokenized_trg.append(trg_word_list)
+            # Append the lines to the data
+            if opt.only_with_keywords:
+                trg_set = set()
+                for word in trg_word_list:
+                    trg_set.update(word)
+                for word in src_word_list:
+                    if word in trg_set:
+                        tokenized_src.append(src_word_list)
+                        tokenized_trg.append(trg_word_list)
+                        break
+            else:
+                tokenized_src.append(src_word_list)
+                tokenized_trg.append(trg_word_list)
 
     assert len(tokenized_src) == len(tokenized_trg), \
         'the number of records in source and target are not the same'
 
     tokenized_pairs = list(zip(tokenized_src, tokenized_trg))
-    print("Finish reading %d lines of data from %s and %s" % (len(tokenized_src), src_file, trg_file))
+    print("Finish reading %d lines of data from %s and %s" % (len(tokenized_src), src_files[0], trg_files[0]))
 
     torch.save(tokenized_src, open(opt.res_data_dir + '/' + tag + '_src.pt', 'wb'))
     torch.save(tokenized_trg, open(opt.res_data_dir + '/' + tag + '_trg.pt', 'wb'))
@@ -165,6 +179,8 @@ def make_bow_dictionary(tokenized_src_trg_pairs, data_dir, bow_vocab):
 def main(opt):
     t0 = time.time()
     # Tokenize training data, return a list of tuple, (src_word_list, [trg_1_word_list, trg_2_word_list, ...])
+    if opt.only_with_keywords:
+        read_src_trg_files(opt, "all")
     tokenized_train_pairs = read_src_trg_files(opt, "train")
 
     # Build vocabulary from training src and trg
