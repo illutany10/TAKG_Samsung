@@ -725,7 +725,7 @@ def main(opt):
         pred_output_file = open(os.path.join(opt.filtered_pred_path, "predictions_filtered.txt"), "w")
 
     score_dict = defaultdict(list)
-    topk_dict = {'present': [1, 3, 5, 10], 'absent': [1, 3, 5, 10], 'all': [1, 3, 5, 10]}  # 'absent': [5, 10, 50, 'M']
+    topk_dict = {'present': [1, 3, 5, 10, 20], 'absent': [1, 3, 5, 10, 20], 'all': [1, 3, 5, 10, 20]}  # 'absent': [5, 10, 50, 'M']
     num_src = 0
     num_unique_predictions = 0
     num_present_filtered_predictions = 0
