@@ -180,9 +180,10 @@ def main(opt):
     t0 = time.time()
     # Tokenize training data, return a list of tuple, (src_word_list, [trg_1_word_list, trg_2_word_list, ...])
     if opt.only_with_keywords:
-        read_src_trg_files(opt, "all")
-    tokenized_train_pairs = read_src_trg_files(opt, "train")
-
+        tag = 'all'
+    else:
+        tag = 'train'
+    tokenized_train_pairs = read_src_trg_files(opt, tag)
     # Build vocabulary from training src and trg
     print("Building vocabulary from training data")
     word2idx, idx2word, token_freq_counter = build_vocab(tokenized_train_pairs)
