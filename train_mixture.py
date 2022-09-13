@@ -120,6 +120,7 @@ def make_topictable_per_doc(ldamodel, corpus):
                 break
     return (topic_table)
 
+
 def make_predict_word_top_j_k(opt, ldamodel, corpus):
     word_table = []
 
@@ -134,12 +135,12 @@ def make_predict_word_top_j_k(opt, ldamodel, corpus):
         # Ex) 정렬 후 0번 문서 : (2번 토픽, 48.5%), (8번 토픽, 25%), (12번 토픽, 21.5%), (10번 토픽, 5%)
         # 48 > 25 > 21 > 5 순으로 정렬이 된 것.
 
-        words_for_doc=[]
+        words_for_doc = []
         # 모든 문서에 대해서 각각 아래를 수행
         for j, (topic_num, prop_topic) in enumerate(doc):  # 몇 번 토픽인지와 비중을 나눠서 저장한다.
             if j < 3:  # 정렬을 한 상태이므로 가장 앞에 있는 것이 가장 비중이 높은 토픽 3개
-                words_in_topic=tp[topic_num][1].split('+')
-                for word in words_in_topic[:7]: #k=7, 7개까지 word
+                words_in_topic = tp[topic_num][1].split('+')
+                for word in words_in_topic[:7]:  # k=7, 7개까지 word
                     words_for_doc.append(word.split('*')[-1][1:-2])
             else:
                 break
@@ -154,65 +155,61 @@ def make_predict_word_top_j_k(opt, ldamodel, corpus):
     return word_table
 
 
+def evaluate_coherence(n_topic: list[int], n_iter: list[int], bow_dictionary, tokenized_doc, corpus):
+    max_topic_coherence = -100
+    max_topic_coherence_cv = -100
+    max_score_topic = -1
+    max_score_topic_cv = -1
+    model_per_topic = {}
+    for n in n_topic:
+        for iter in n_iter:
+            lda_model = gensim.models.ldamodel.LdaModel(corpus, num_topics=n, id2word=bow_dictionary, passes=15, iterations=iter)
+            cm = CoherenceModel(model=lda_model, corpus=corpus, coherence='u_mass')
+            cm_c_v = CoherenceModel(model=lda_model, texts=tokenized_doc, coherence='c_v')
+            coherence = cm.get_coherence()
+            coherence_cv = cm_c_v.get_coherence()
+            perplexity = lda_model.log_perplexity(corpus)
+            print(f'# of Topic : {n}, Coherence : {coherence}, Perplexity : {perplexity}')
+            model_per_topic[str(n) + '_' + str(iter)] = (lda_model, coherence, coherence_cv, perplexity)
+            if max_topic_coherence < coherence:
+                max_topic_coherence = coherence
+                max_score_topic = n
+            if max_topic_coherence_cv < coherence_cv:
+                max_topic_coherence_cv = coherence_cv
+                max_score_topic_cv = n
+            pickle.dump(model_per_topic, open('model_per_topic.pkl', 'wb'))  # for Debug
+    return max_score_topic, max_topic_coherence, max_score_topic_cv, max_topic_coherence_cv
+
+
 def train_model(model, ntm_model, optimizer_ml, optimizer_ntm, optimizer_whole, train_data_loader, valid_data_loader,
                 bow_dictionary, train_bow_loader, valid_bow_loader, opt):
     logging.info('======================  Start Training  =========================')
 
     if opt.only_train_lda:
-        if not opt.load_pretrain_lda:
-            tokenized_doc = torch.load(opt.data + 'corpus.pt')
-            corpus = [bow_dictionary.doc2bow(text) for text in tokenized_doc]
-            # tokenized_doc_test = torch.load(opt.data + 'corpus_test.pt')
-            # test_corpus = [bow_dictionary.doc2bow(text) for text in tokenized_doc_test]
-            # corpus = corpus + test_corpus
-            pickle.dump(corpus, open('gensim_corpus_corpus.pkl', 'wb'))
+        tokenized_doc = torch.load(opt.data + 'corpus.pt')
+        corpus = [bow_dictionary.doc2bow(text) for text in tokenized_doc]
+        # pickle.dump(corpus, open('gensim_corpus.pkl', 'wb'))
+        if not opt.evaluate_coherence:
+            lda_model = gensim.models.ldamodel.LdaModel(corpus, num_topics=opt.topic_num, id2word=bow_dictionary, passes=15)
+        else:
             n_topic = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
             n_iter = [1, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
-            max_topic_coherence = -100
-            max_topic_coherence_cv = -100
-            max_score_topic = -1
-            max_score_topic_cv = -1
-            model_per_topic = {}
-            for n in n_topic:
-                for iter in n_iter:
-                    lda_model = gensim.models.ldamodel.LdaModel(corpus, num_topics=n, id2word=bow_dictionary, passes=15, iterations=iter)
-                    cm = CoherenceModel(model=lda_model, corpus=corpus, coherence='u_mass')
-                    cm_c_v = CoherenceModel(model=lda_model, texts=tokenized_doc, coherence='c_v')
-                    coherence = cm.get_coherence()
-                    coherence_cv = cm_c_v.get_coherence()
-                    perplexity = lda_model.log_perplexity(corpus)
-                    print(f'# of Topic : {n}, Coherence : {coherence}, Perplexity : {perplexity}')
-                    model_per_topic[str(n) + '_' + str(iter)] = (lda_model, coherence, coherence_cv, perplexity)
-                    if max_topic_coherence < coherence:
-                        max_topic_coherence = coherence
-                        max_score_topic = n
-                    if max_topic_coherence_cv < coherence_cv:
-                        max_topic_coherence_cv = coherence_cv
-                        max_score_topic_cv = n
-                    pickle.dump(model_per_topic, open('model_per_topic.pkl', 'wb'))  # for Debug
-
+            max_score_topic, max_topic_coherence, max_score_topic_cv, max_topic_coherence_cv = \
+                evaluate_coherence(n_topic, n_iter, bow_dictionary, tokenized_doc, corpus)
             print(f'Max Score Topic (u_mass): {max_score_topic} ({max_topic_coherence}), Max Score Topic (CV): {max_score_topic_cv} ({max_topic_coherence_cv})')
             lda_model = gensim.models.ldamodel.LdaModel(corpus, num_topics=max_score_topic, id2word=bow_dictionary, passes=15)
-            lda_model.save('gensim_model.gensim')
 
-            topic_table = make_topictable_per_doc(lda_model, corpus)
-            topic_table = topic_table.reset_index()  # 문서 번호을 의미하는 열(column)로 사용하기 위해서 인덱스 열을 하나 더 만든다.
-            topic_table.columns = ['문서 번호', '가장 비중이 높은 토픽', '가장 높은 토픽의 비중', '각 토핑의 비중']
-            pickle.dump(topic_table, open('gensim_topic_table.pkl', 'wb'))
-        else:
-            lda_model = gensim.models.ldamodel.LdaModel.load('gensim_model.gensim')
-            corpus = pickle.load(open('gensim_corpus_corpus.pkl', 'rb'))
-            topic_table = pickle.load(open('gensim_topic_table.pkl', 'rb'))
+        lda_model.save('gensim_model.gensim')
+
+        topic_table = make_topictable_per_doc(lda_model, corpus)
+        topic_table = topic_table.reset_index()  # 문서 번호을 의미하는 열(column)로 사용하기 위해서 인덱스 열을 하나 더 만든다.
+        topic_table.columns = ['문서 번호', '가장 비중이 높은 토픽', '가장 높은 토픽의 비중', '각 토핑의 비중']
+        pickle.dump(topic_table, open('gensim_topic_table.pkl', 'wb'))
 
         print(topic_table[:10])
         vis = pyLDAvis.gensim_models.prepare(lda_model, corpus, bow_dictionary)
         pyLDAvis.save_html(vis, './vis.html')
         return
-
-    # lda_model = LatentDirichletAllocation(n_components=10, learning_method='online', random_state=777, max_iter=1)
-    # lda_top = lda_model.fit_transform(X)
-    # print(lda_model.components_)
-    # print(lda_model.components_.shape)
 
     if opt.only_train_ntm or (opt.use_topic_represent and not opt.load_pretrain_ntm):
         print("\nWarming up ntm for %d epochs" % opt.ntm_warm_up_epochs)

@@ -62,7 +62,7 @@ def my_own_opts(parser):
     parser.add_argument('-target_sparsity', type=float, default=0.85,
                         help="Target sparsity for ntm model")
 
-    parser.add_argument('-load_pretrain_lda', default=False, action='store_true')
+    parser.add_argument('-evaluate_coherence', default=False, action='store_true')
 
 
 def model_opts(parser):
