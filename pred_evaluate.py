@@ -737,7 +737,7 @@ def main(opt):
     t0 = time.time()
 
     for data_idx, (src_l, trg_l, pred_l) in enumerate(zip(open(src_file_path, 'r', encoding='UTF8'), open(trg_file_path, 'r', encoding='UTF8'), open(pred_file_path, 'r', encoding='UTF8'))):
-        num_src += 1
+
         # convert the str to token list
         pred_str_list = pred_l.strip().split(';')
         pred_str_list = pred_str_list[:opt.num_preds]
@@ -747,6 +747,17 @@ def main(opt):
         # [title, context] = src_l.strip().split('<eos>')
         # src_token_list = title.strip().split(' ') + context.strip().split(' ')
         src_token_list = src_l.strip().split()
+
+        # target token 이 source 에 포함된 경우만 evaluate 진행
+        src_token_set = set(src_token_list)
+        trg_token_set = set(trg_str_list)
+        prev_num_src = num_src
+        for word in src_token_set:
+            if word in trg_token_set:
+                num_src += 1
+                break
+        if prev_num_src == num_src:
+            continue
 
         num_predictions = len(pred_str_list)
 
