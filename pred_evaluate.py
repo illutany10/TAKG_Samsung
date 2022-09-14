@@ -7,6 +7,7 @@ import os
 import logging
 import pykp.io
 import time
+import pickle
 np.seterr(divide='ignore', invalid='ignore')
 
 
@@ -748,11 +749,19 @@ def main(opt):
         # src_token_list = title.strip().split(' ') + context.strip().split(' ')
         src_token_list = src_l.strip().split()
 
+        trg_vocab_set = set()
+        with open('processed_data/StackExchange_s150_t10/target_counted_token.pickle', 'rb') as fr:
+            trg_vocab = pickle.load(fr)
+        for trg in trg_vocab[:200]:
+            trg_vocab_set.update([trg[0]])
+
         # target token 이 source 에 포함된 경우만 evaluate 진행
         src_token_set = set(src_token_list)
         trg_token_set = set(trg_str_list)
         prev_num_src = num_src
         for word in src_token_set:
+            if len(trg_token_set & trg_vocab_set) == 0:
+                break
             if word in trg_token_set:
                 num_src += 1
                 break
