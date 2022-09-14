@@ -7,6 +7,7 @@ import gensim
 import os
 import time
 import re
+import pickle
 
 
 def read_src_trg_files(opt, tag="train"):
@@ -29,6 +30,13 @@ def read_src_trg_files(opt, tag="train"):
     tokenized_src = []
     tokenized_trg = []
 
+    trg_vocab_set = set()
+    if opt.only_with_keywords:
+        with open('processed_data/StackExchange_s150_t10/target_counted_token.pickle', 'rb') as fr:
+            trg_vocab = pickle.load(fr)
+        for trg in trg_vocab[:200]:
+            trg_vocab_set.update([trg[0]])
+
     for src_file, trg_file in zip(src_files, trg_files):
         for src_line, trg_line in zip(open(src_file, 'r', encoding='UTF8'), open(trg_file, 'r', encoding='UTF8')):
             # process src and trg line
@@ -47,6 +55,10 @@ def read_src_trg_files(opt, tag="train"):
                 for word in trg_word_list:
                     trg_set.update(word)
                 for word in src_word_list:
+                    # if len(trg_set) > 3:
+                    #     break
+                    if len(trg_set & trg_vocab_set) == 0:
+                        break
                     if word in trg_set:
                         tokenized_src.append(src_word_list)
                         tokenized_trg.append(trg_word_list)
