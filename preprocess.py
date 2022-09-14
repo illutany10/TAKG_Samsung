@@ -38,11 +38,11 @@ def read_src_trg_files(opt, tag="train"):
 
             # Truncate the sequence if it is too long
             src_word_list = src_word_list[:opt.max_src_len]
-            if tag != "test" or opt.only_with_keywords:
+            if tag != "test":
                 trg_word_list = [trg_list[:opt.max_trg_len] for trg_list in trg_word_list]
 
             # Append the lines to the data
-            if opt.only_with_keywords:
+            if tag != "test" and opt.only_with_keywords:
                 trg_set = set()
                 for word in trg_word_list:
                     trg_set.update(word)
@@ -179,11 +179,7 @@ def make_bow_dictionary(tokenized_src_trg_pairs, data_dir, bow_vocab):
 def main(opt):
     t0 = time.time()
     # Tokenize training data, return a list of tuple, (src_word_list, [trg_1_word_list, trg_2_word_list, ...])
-    if opt.only_with_keywords:
-        tag = 'all'
-    else:
-        tag = 'train'
-    tokenized_train_pairs = read_src_trg_files(opt, tag)
+    tokenized_train_pairs = read_src_trg_files(opt, "train")
     # Build vocabulary from training src and trg
     print("Building vocabulary from training data")
     word2idx, idx2word, token_freq_counter = build_vocab(tokenized_train_pairs)
