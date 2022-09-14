@@ -10,7 +10,7 @@ import time
 np.seterr(divide='ignore', invalid='ignore')
 
 
-def check_valid_keyphrases(str_list):
+def check_valid_keyphrases(opt, str_list):
     num_pred_seq = len(str_list)
     is_valid = np.zeros(num_pred_seq, dtype=bool)
     for i, word_list in enumerate(str_list):
@@ -647,7 +647,7 @@ def update_score_dict(trg_token_2dlist_stemmed, pred_token_2dlist_stemmed, k_lis
     return score_dict
 
 
-def filter_prediction(disable_valid_filter, disable_extra_one_word_filter, pred_token_2dlist_stemmed):
+def filter_prediction(opt, disable_valid_filter, disable_extra_one_word_filter, pred_token_2dlist_stemmed):
     """
     Remove the duplicate predictions, can optionally remove invalid predictions and extra one word predictions
     :param disable_valid_filter:
@@ -660,7 +660,7 @@ def filter_prediction(disable_valid_filter, disable_extra_one_word_filter, pred_
     is_unique_mask = check_duplicate_keyphrases(pred_token_2dlist_stemmed)  # boolean array, 1=unqiue, 0=duplicate
     pred_filter = is_unique_mask
     if not disable_valid_filter:
-        is_valid_mask = check_valid_keyphrases(pred_token_2dlist_stemmed)
+        is_valid_mask = check_valid_keyphrases(opt, pred_token_2dlist_stemmed)
         pred_filter = pred_filter * is_valid_mask
     if not disable_extra_one_word_filter:
         extra_one_word_seqs_mask, num_one_word_seqs = compute_extra_one_word_seqs_mask(pred_token_2dlist_stemmed)
@@ -767,7 +767,7 @@ def main(opt):
         stemmed_pred_token_2dlist = stem_str_list(pred_token_2dlist)
 
         # Filter out duplicate, invalid, and extra one word predictions
-        filtered_stemmed_pred_token_2dlist, num_duplicated_predictions = filter_prediction(opt.disable_valid_filter, opt.disable_extra_one_word_filter, stemmed_pred_token_2dlist)
+        filtered_stemmed_pred_token_2dlist, num_duplicated_predictions = filter_prediction(opt, opt.disable_valid_filter, opt.disable_extra_one_word_filter, stemmed_pred_token_2dlist)
         num_unique_predictions += (num_predictions - num_duplicated_predictions)
 
         # Remove duplicated targets
@@ -838,6 +838,9 @@ def main(opt):
     field_list = field_list_all + field_list_present + field_list_absent
     result_list = result_list_all + result_list_present + result_list_absent
 
+    field_list_samsung = field_list_all[3:15] + field_list_all[18:] + field_list_present[3:15] + field_list_present[18:]
+    result_list_samsung = result_list_all[3:15] + result_list_all[18:] + result_list_present[3:15] + result_list_present[18:]
+
     # Write to files
     results_txt_file = open(os.path.join(opt.exp_path, "results_log.txt"), "w")
 
@@ -851,7 +854,7 @@ def main(opt):
     print('\n\nThe full results for %s:' % opt.pred)
     print(result_txt_str)
     print("Writing results into %s and takes %.2f" % (os.path.join(opt.exp_path, "results_log.txt"), time.time() - t0))
-    return
+    return field_list_samsung, result_list_samsung
 
 
 def report_stat_and_scores(num_filtered_predictions, num_unique_trgs, num_src, score_dict, topk_list, present_tag):

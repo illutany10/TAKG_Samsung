@@ -58,7 +58,7 @@ def process_opt(opt):
     opt.data_tag = opt.model.split('\\')[1].split('.')[0]
     opt.data = "processed_data/{}/".format(opt.data_tag)
     opt.vocab = opt.data
-    opt.exp = 'predict__' + '__'.join(opt.model.split('/')[1:])
+    opt.exp = 'predict__' + '__'.join(opt.model.split('\\')[1:])
 
     opt.replace_unk = True
 
@@ -114,17 +114,6 @@ def predict(test_data_loader, model, ntm_model, bow_dictionary, opt):
     else:
         delimiter_word = pykp.io.EOS_WORD
 
-    if opt.lda_model:  # 임시 코드. 수정 필요.
-        lda_model = gensim.models.ldamodel.LdaModel.load('gensim_model.gensim')
-        test_corpus = torch.load(opt.data + 'test_src.pt')
-        test_corpus = [bow_dictionary.doc2bow(text) for text in test_corpus]
-        tw = make_predict_word_top_j_k(opt, lda_model, test_corpus)
-        topic_table = make_topictable_per_doc(lda_model, test_corpus)
-        topic_table = topic_table.reset_index()  # 문서 번호을 의미하는 열(column)로 사용하기 위해서 인덱스 열을 하나 더 만든다.
-        topic_table.columns = ['문서 번호', '가장 비중이 높은 토픽', '가장 높은 토픽의 비중', '각 토핑의 비중']
-        print(topic_table[:10])
-        return
-
     generator = SequenceGenerator(model,
                                   ntm_model,
                                   opt.use_topic_represent,
@@ -150,6 +139,18 @@ def predict(test_data_loader, model, ntm_model, bow_dictionary, opt):
     evaluate_beam_search(generator, test_data_loader, opt, delimiter_word)
 
 
+def predict_by_lda(opt, bow_dictionary):
+    lda_model = gensim.models.ldamodel.LdaModel.load('gensim_model.gensim')
+    test_corpus = torch.load(opt.data + 'test_src.pt')
+    test_corpus = [bow_dictionary.doc2bow(text) for text in test_corpus]
+    tw = make_predict_word_top_j_k(opt, lda_model, test_corpus)
+    # topic_table = make_topictable_per_doc(lda_model, test_corpus)
+    # topic_table = topic_table.reset_index()  # 문서 번호을 의미하는 열(column)로 사용하기 위해서 인덱스 열을 하나 더 만든다.
+    # topic_table.columns = ['문서 번호', '가장 비중이 높은 토픽', '가장 높은 토픽의 비중', '각 토핑의 비중']
+    # print(topic_table[:10])
+    return
+
+
 def main(opt):
     try:
         start_time = time.time()
@@ -159,6 +160,10 @@ def main(opt):
         model, ntm_model = init_pretrained_model(opt)
         logging.info('Time for loading the data and model: %.1f' % load_data_time)
         start_time = time.time()
+
+        if opt.lda_model:  # 임시 코드. 수정 필요.
+            predict_by_lda(opt, bow_dictionary)
+            return
 
         predict(test_data_loader, model, ntm_model, bow_dictionary, opt)
 

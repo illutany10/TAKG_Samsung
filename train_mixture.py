@@ -7,7 +7,7 @@ import pickle
 
 import gensim
 from gensim.models.coherencemodel import CoherenceModel
-import pyLDAvis.gensim_models
+
 import pandas as pd
 import torch
 import torch.nn as nn
@@ -184,32 +184,6 @@ def evaluate_coherence(n_topic: list[int], n_iter: list[int], bow_dictionary, to
 def train_model(model, ntm_model, optimizer_ml, optimizer_ntm, optimizer_whole, train_data_loader, valid_data_loader,
                 bow_dictionary, train_bow_loader, valid_bow_loader, opt):
     logging.info('======================  Start Training  =========================')
-
-    if opt.only_train_lda:
-        tokenized_doc = torch.load(opt.data + 'corpus.pt')
-        corpus = [bow_dictionary.doc2bow(text) for text in tokenized_doc]
-        # pickle.dump(corpus, open('gensim_corpus.pkl', 'wb'))
-        if not opt.evaluate_coherence:
-            lda_model = gensim.models.ldamodel.LdaModel(corpus, num_topics=opt.topic_num, id2word=bow_dictionary, passes=15)
-        else:
-            n_topic = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
-            n_iter = [1, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
-            max_score_topic, max_topic_coherence, max_score_topic_cv, max_topic_coherence_cv = \
-                evaluate_coherence(n_topic, n_iter, bow_dictionary, tokenized_doc, corpus)
-            print(f'Max Score Topic (u_mass): {max_score_topic} ({max_topic_coherence}), Max Score Topic (CV): {max_score_topic_cv} ({max_topic_coherence_cv})')
-            lda_model = gensim.models.ldamodel.LdaModel(corpus, num_topics=max_score_topic, id2word=bow_dictionary, passes=15)
-
-        lda_model.save('gensim_model.gensim')
-
-        topic_table = make_topictable_per_doc(lda_model, corpus)
-        topic_table = topic_table.reset_index()  # 문서 번호을 의미하는 열(column)로 사용하기 위해서 인덱스 열을 하나 더 만든다.
-        topic_table.columns = ['문서 번호', '가장 비중이 높은 토픽', '가장 높은 토픽의 비중', '각 토핑의 비중']
-        pickle.dump(topic_table, open('gensim_topic_table.pkl', 'wb'))
-
-        print(topic_table[:10])
-        vis = pyLDAvis.gensim_models.prepare(lda_model, corpus, bow_dictionary)
-        pyLDAvis.save_html(vis, './vis.html')
-        return
 
     if opt.only_train_ntm or (opt.use_topic_represent and not opt.load_pretrain_ntm):
         print("\nWarming up ntm for %d epochs" % opt.ntm_warm_up_epochs)

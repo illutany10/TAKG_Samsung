@@ -10,6 +10,11 @@ from torch.optim import Adam
 
 import config
 import train_mixture
+import pickle
+import gensim
+import pyLDAvis.gensim_models
+
+from train_mixture import evaluate_coherence, make_topictable_per_doc
 from pykp.io import SEP_WORD, EOS_WORD
 from pykp.model import Seq2SeqModel, NTM
 
@@ -17,6 +22,7 @@ from utils.time_log import time_since
 from utils.data_loader import load_data_and_vocab
 
 import os
+
 os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 
 
@@ -149,6 +155,35 @@ def init_optimizers(model, ntm_model, opt):
     return optimizer_seq2seq, optimizer_ntm, optimizer_whole
 
 
+def train_lda(opt, bow_dictionary, n_iter=30):
+    tokenized_doc = torch.load(opt.data + 'corpus.pt')
+    corpus = [bow_dictionary.doc2bow(text) for text in tokenized_doc]
+    # pickle.dump(corpus, open('gensim_corpus.pkl', 'wb'))
+    if not opt.evaluate_coherence:
+        lda_model = gensim.models.ldamodel.LdaModel(corpus, num_topics=opt.topic_num, id2word=bow_dictionary, passes=15, iterations=n_iter)
+    else:
+        n_topic = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+        n_iter = [1, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+        max_score_topic, max_topic_coherence, max_score_topic_cv, max_topic_coherence_cv = \
+            evaluate_coherence(n_topic, n_iter, bow_dictionary, tokenized_doc, corpus)
+        print(f'Max Score Topic (u_mass): {max_score_topic} ({max_topic_coherence}), Max Score Topic (CV): {max_score_topic_cv} ({max_topic_coherence_cv})')
+        lda_model = gensim.models.ldamodel.LdaModel(corpus, num_topics=max_score_topic, id2word=bow_dictionary, passes=15)
+
+    lda_model.save('gensim_model.gensim')
+
+    if not opt.skip_saving_lda_result:
+        topic_table = make_topictable_per_doc(lda_model, corpus)
+        topic_table = topic_table.reset_index()  # 문서 번호을 의미하는 열(column)로 사용하기 위해서 인덱스 열을 하나 더 만든다.
+        topic_table.columns = ['문서 번호', '가장 비중이 높은 토픽', '가장 높은 토픽의 비중', '각 토핑의 비중']
+        pickle.dump(topic_table, open('gensim_topic_table.pkl', 'wb'))
+
+        print(topic_table[:10])
+        vis = pyLDAvis.gensim_models.prepare(lda_model, corpus, bow_dictionary)
+        pyLDAvis.save_html(vis, './vis.html')
+        print('Saving Visualized LDA HTML File is Done')
+    return
+
+
 def main(opt):
     try:
         start_time = time.time()
@@ -157,6 +192,10 @@ def main(opt):
         opt.bow_vocab_size = len(bow_dictionary)
         load_data_time = time_since(start_time)
         logging.info('Time for loading the data: %.1f' % load_data_time)
+
+        if opt.only_train_lda:
+            train_lda(opt, bow_dictionary)
+            return
 
         start_time = time.time()
         model = Seq2SeqModel(opt).to(opt.device)
