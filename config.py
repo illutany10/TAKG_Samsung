@@ -204,7 +204,7 @@ def vocab_opts(parser):
 
 def train_opts(parser):
     # Model loading/saving options
-    parser.add_argument('-data_tag', type=str, required=True)
+    parser.add_argument('-data_tag', type=str, default='StackExchange_s150_t10')
     parser.add_argument('-data',  # required=True,
                         help="""Path prefix to the "train.one2one.pt" and
                         "train.one2many.pt" file path from preprocess.py""")
@@ -420,7 +420,7 @@ def train_opts(parser):
 
 
 def predict_opts(parser):
-    parser.add_argument('-model', required=True,
+    parser.add_argument('-model',  # required=True,
                         help='Path to model .pt file')
     parser.add_argument('-ntm_model', type=str,
                         help='Path to ntm model .pt file')

@@ -190,10 +190,11 @@ def train_model(model, ntm_model, optimizer_ml, optimizer_ntm, optimizer_whole, 
         for epoch in range(1, opt.ntm_warm_up_epochs + 1):
             sparsity = train_ntm_one_epoch(ntm_model, train_bow_loader, optimizer_ntm, opt, epoch)
             val_loss = test_ntm_one_epoch(ntm_model, valid_bow_loader, opt, epoch)
-            if epoch % 10 == 0:
+            if opt.ntm_warm_up_epochs == epoch:  # epoch % 10 == 0:
                 ntm_model.print_topic_words(bow_dictionary, os.path.join(opt.model_path, 'topwords_e%d.txt' % epoch))
-                best_ntm_model_path = os.path.join(opt.model_path, 'e%d.val_loss=%.3f.sparsity=%.3f.ntm_model' %
-                                                   (epoch, val_loss, sparsity))
+                # best_ntm_model_path = os.path.join(opt.model_path, 'e%d.val_loss=%.3f.sparsity=%.3f.ntm_model' %
+                #                                    (epoch, val_loss, sparsity))
+                best_ntm_model_path = (os.path.join(opt.model_path, str(opt.topic_num) + '.ntm_model')).replace('/', '\\')
                 logging.info("\nSaving warm up ntm model into %s" % best_ntm_model_path)
                 torch.save(ntm_model.state_dict(), open(best_ntm_model_path, 'wb'))
     elif opt.use_topic_represent:
@@ -201,7 +202,7 @@ def train_model(model, ntm_model, optimizer_ml, optimizer_ntm, optimizer_whole, 
         ntm_model.load_state_dict(torch.load(opt.check_pt_ntm_model_path))
 
     if opt.only_train_ntm:
-        return
+        return opt.timemark, best_ntm_model_path
 
     total_batch = 0
     total_train_loss_statistics = LossStatistics()
@@ -390,6 +391,8 @@ def train_model(model, ntm_model, optimizer_ml, optimizer_ntm, optimizer_whole, 
         #     if opt.joint_train:
         #         ntm_model.print_topic_words(bow_dictionary, os.path.join(opt.model_path, 'topwords_e%d.txt' % epoch))
 
+    if opt.joint_train:
+        return check_pt_model_path, check_pt_ntm_model_path
     return check_pt_model_path
 
 

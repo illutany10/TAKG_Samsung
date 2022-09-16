@@ -47,6 +47,7 @@ def process_opt(opt):
         opt.gpuid = -1
         print("CUDA is not available, fall back to CPU.")
 
+    opt.model = opt.model.replace('/', '\\')
     print(opt.model)
     print(opt.model.count('\\'))
     assert opt.model.count('\\') == 2 and all([tag in opt.model for tag in ['vs', 'emb', 'dec', 'model']])

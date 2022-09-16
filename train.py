@@ -141,7 +141,7 @@ def process_opt(opt):
         torch.save(opt,
                    open(os.path.join(opt.model_path, 'initial.config'), 'wb')
                    )
-        json.dump(vars(opt), open(os.path.join(opt.model_path, 'initial.json'), 'w'))
+        # json.dump(vars(opt), open(os.path.join(opt.model_path, 'initial.json'), 'w'))
 
     return opt
 
