@@ -89,9 +89,14 @@ if __name__ == "__main__":
     for topic in topics:
         timemark, model_path = train_per_topic('ntm', n_topic=topic)
         check_pt_model_path, check_pt_ntm_model_path = train_per_topic('joint', n_topic=topic, timemark=timemark, model_path=model_path)
+        print(check_pt_model_path)
+        print(check_pt_ntm_model_path)
         # check_pt_model_path = 'model/StackExchange_s150_t10.joint_train.use_topic.topic_num50.topic_attn.no_topic_dec.copy.seed9527.emb150.vs50000.dec300.20220916-105751\\e3.val_loss=2.152.model-0h-06m'.replace('/', '\\')
         # check_pt_ntm_model_path = 'model/StackExchange_s150_t10.joint_train.use_topic.topic_num50.topic_attn.no_topic_dec.copy.seed9527.emb150.vs50000.dec300.20220916-105751\\e3.val_loss=2.152.model_ntm-0h-06m'.replace('/', '\\')
+
+        print('**** Predict Start ****')
         predict_per_topic(check_pt_model_path, check_pt_ntm_model_path)
+        print('**** Predict End ****')
 
         # load settings for training
         parser = argparse.ArgumentParser(
@@ -112,13 +117,15 @@ if __name__ == "__main__":
         opt.invalidate_unk = True
         opt.disable_extra_one_word_filter = True
 
+        print('**** Evaluate Start ****')
         field_list_samsung, result_list_samsung = main(opt)
+        print('**** Evaluate End ****')
 
         pair_result = zip(field_list_samsung, result_list_samsung)
         pair_result_dict = dict()
         for i, j in pair_result:
             pair_result_dict[i] = j
-        result_series = pd.Series(pair_result_dict, name=str(opt.topic_num))
+        result_series = pd.Series(pair_result_dict, name=str(topic))
         df = df.append(result_series)
         pickle.dump(df, open('result_legacy.pkl', 'wb'))
         print(df)

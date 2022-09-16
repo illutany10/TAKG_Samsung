@@ -509,11 +509,11 @@ def predict_opts(parser):
 
 
 def post_predict_opts(parser):
-    parser.add_argument('-pred', type=str, required=True,
+    parser.add_argument('-pred', type=str,  # required=True,
                         help="Path of the prediction file.")
-    parser.add_argument('-src', type=str, required=True,
+    parser.add_argument('-src', type=str,  # required=True,
                         help="Path of the source text file.")
-    parser.add_argument('-trg', type=str, required=True,
+    parser.add_argument('-trg', type=str,  # required=True,
                         help="Path of the target text file.")
 
     parser.add_argument('-export_filtered_pred', action="store_true",
