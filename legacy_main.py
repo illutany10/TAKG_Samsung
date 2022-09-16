@@ -130,6 +130,9 @@ if __name__ == "__main__":
         pickle.dump(df, open('result_legacy.pkl', 'wb'))
         print(df)
 
-    pickle.dump(df.T, open('result_legacy.pkl', 'wb'))
-    print(df.T)
+    df = df.T
+    pickle.dump(df, open('result_legacy.pkl', 'wb'))
+    print(df)
+    df.to_csv('result_legacy.csv')
+
 
